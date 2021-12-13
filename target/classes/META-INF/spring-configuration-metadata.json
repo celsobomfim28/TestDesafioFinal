@@ -1,0 +1,22 @@
+{
+  "groups": [
+    {
+      "name": "aws.sns",
+      "type": "br.com.pan.bluebank.config.AwsProperties",
+      "sourceType": "br.com.pan.bluebank.config.AwsProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "aws.sns.region",
+      "type": "java.lang.String",
+      "sourceType": "br.com.pan.bluebank.config.AwsProperties"
+    },
+    {
+      "name": "aws.sns.topic-arn",
+      "type": "java.lang.String",
+      "sourceType": "br.com.pan.bluebank.config.AwsProperties"
+    }
+  ],
+  "hints": []
+}
