@@ -22,7 +22,7 @@ public class ClienteService {
 	private EnderecoService enderecoService;
 	
 	@Autowired 
-	private MessagePublisher notification;
+	private EmailNotificationService notification;
 	
 	public Cliente findById(Long id) {	
 		return clienteRepository.findById(id)
@@ -37,7 +37,7 @@ public class ClienteService {
 		Endereco endereco = enderecoService.create(dto.getEndereco());
 		dto.setEndereco(endereco);
 		Cliente entity = ClienteMapper.toEntity(dto);
-		//notification.addSubscription(dto.getEmail());
+		notification.addSubscription(dto.getEmail());
 		return clienteRepository.save(entity);	
 	}
 	

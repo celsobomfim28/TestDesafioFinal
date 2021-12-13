@@ -3,8 +3,6 @@ package br.com.pan.bluebank.controllers;
 import java.net.URI;
 import java.util.List;
 
-import br.com.pan.bluebank.services.MessagePublisher;
-import br.com.pan.bluebank.utils.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +19,7 @@ import br.com.pan.bluebank.dtos.response.MessageResponse;
 import br.com.pan.bluebank.dtos.response.MessageResponseImpl;
 import br.com.pan.bluebank.models.Cliente;
 import br.com.pan.bluebank.services.ClienteService;
+import br.com.pan.bluebank.services.EmailNotificationService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -33,7 +32,7 @@ public class ClienteController implements MessageResponse {
 	private ClienteService service;
 
 	@Autowired
-	private MessagePublisher notification;
+	private EmailNotificationService notification;
 	
 	@ApiOperation(value = "Retorna um cliente a partir do id informado")
 	@ApiResponses(value = {
@@ -84,9 +83,9 @@ public class ClienteController implements MessageResponse {
 		return ResponseEntity.ok(createMessageResponse("Cliente atualizado com sucesso!"));
 	}
 	
-	@PostMapping("/sendnotification")
-	public String publishMessageToTopic(@RequestBody Message message){
-		 notification.publish(message);
+	@GetMapping("/sendnotification")
+	public String publishMessageToTopic(){	
+		 notification.publishMessageToTopic();
 		 return "Notification send successfully !!";
 	}
 }

@@ -1,8 +1,6 @@
 package br.com.pan.bluebank.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -12,19 +10,22 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.AmazonSNSClientBuilder;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.sns.SnsClient;
 
 @Configuration
 public class AwsSnsConfig {
+	
+	@Value("${access.key}")
+    public String ACCESS_KEY;
+	
+	@Value("${secret.key}")
+    public String SECRET_KEY;
 
-    @Autowired
-    private AwsProperties awsProperties;
-
+    @Primary
     @Bean
-    public SnsClient snsClient() {
-        return SnsClient.builder()
-                .region(Region.of(awsProperties.getRegion()))
+    public AmazonSNSClient getSnsClient() {
+        return (AmazonSNSClient) AmazonSNSClientBuilder.standard().withRegion(Regions.US_EAST_1)
+                .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(ACCESS_KEY,
+                        SECRET_KEY)))
                 .build();
     }
 }
